@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Slot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        form input, form select, form button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        form button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            text-align: center;
+            font-size: 14px;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Book a Slot</h1>
+
+    {% if message %}
+        <p style="color: green;">{{ message }}</p>
+    {% elif error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form action="/book-slot" method="post">
+        <label for="student_id">Student ID:</label>
+        <input type="text" id="student_id" name="student_id" required><br><br>
+
+        <label for="tutor_id">Tutor ID:</label>
+        <input type="text" id="tutor_id" name="tutor_id" value="{{ tutor_id }}" readonly><br><br>
+
+        <label for="date">Date:</label>
+        <input type="text" id="date" name="date" value="{{ date }}" readonly><br><br>
+
+        <label for="start_time">Start Time:</label>
+        <input type="text" id="start_time" name="start_time" value="{{ start_time }}" readonly><br><br>
+
+        <label for="end_time">End Time:</label>
+        <input type="text" id="end_time" name="end_time" value="{{ end_time }}" readonly><br><br>
+
+        <label for="time_zone">Time Zone:</label>
+        <input type="text" id="time_zone" name="time_zone" value="{{ time_zone }}" readonly><br><br>
+
+        <button type="submit">Book Slot</button>
+    </form>
+
+    <a href="/">Go Back to Home</a>
+</body>
+</html>
