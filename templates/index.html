@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.6;
+        }
+    
+        h1, h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: #000000;
+        }
+    
+        p {
+            text-align: center;
+            margin: 10px auto;
+            max-width: 800px;
+        }
+    
+        ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+    
+        ul li {
+            margin: 0;
+        }
+    
+        ul li a {
+            display: block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+    
+        ul li a:hover {
+            background-color: #0056b3;
+        }
+    
+        a {
+            text-decoration: none;
+            color: #007bff;
+        }
+    
+        a:hover {
+            text-decoration: underline;
+        }
+    
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>    
+    <script>
+        function askForIdAndRedirect(baseUrl) {
+            const id = prompt("Please enter your ID:");
+            if (id) {
+                window.location.href = `${baseUrl}/${id}`;
+            }
+        }
+        function askForTimezoneAndRedirect(baseUrl) {
+            const timezone = prompt("Please enter your Time Zone (e.g., UTC, Europe/London):");
+            if (timezone) {
+                window.location.href = `${baseUrl}?timezone=${encodeURIComponent(timezone)}`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome to the Scheduling System</h1>
+    <h2>Tutors</h2>
+    <ul>
+        <li><a href="/availability/add">Add Availability</a></li>
+        <li><a href="#" onclick="askForIdAndRedirect('/availability')">View Availability</a></li>
+        <li><a href="#" onclick="askForIdAndRedirect('/tutor-bookings')">View Tutor Bookings</a></li>
+    </ul>
+
+    <h2>Students</h2>
+    <ul>
+        <li><a href="#" onclick="askForTimezoneAndRedirect('/availability/view')">Book Availability</a></li>
+        <li><a href="#" onclick="askForIdAndRedirect('/student-bookings')">View Student Bookings</a></li>
+    </ul>
+</body>
+</html>
