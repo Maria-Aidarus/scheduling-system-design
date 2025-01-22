@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Tutor Availability</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #343a40;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+            padding-left: 80px;
+        }
+
+        .form-container {
+            align-self: center;
+            max-width: 100px;
+            padding: 200px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding-left: 80px; 
+        }
+
+        h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+            padding-left: 20px; 
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 20px; 
+        }
+
+        form input, form select, form button {
+            align-self: center;
+            width: 15%;
+            padding: 10px;
+            margin: 0 auto; 
+            margin-left: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding-left: 20px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            padding-left: 20px; 
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        function showNotification(message, type) {
+            alert(`${type.toUpperCase()}: ${message}`);
+        }
+    </script>
+</head>
+<body>
+    <h1>Manage Tutor Availability</h1>
+
+    {% if message %}
+        <script>
+            showNotification("{{ message }}", "success");
+        </script>
+    {% elif error %}
+        <script>
+            showNotification("{{ error }}", "error");
+        </script>
+    {% endif %}
+
+    <form action="/availability/add" method="post">
+        <label for="tutor_id">Tutor ID:</label>
+        <input type="number" id="tutor_id" name="tutor_id" required><br><br>
+    
+        <label for="date">Start Date:</label>
+        <input type="date" id="date" name="date" required><br><br>
+    
+        <label for="start_time">Start Time:</label>
+        <input type="time" id="start_time" name="start_time" required><br><br>
+    
+        <label for="end_time">End Time:</label>
+        <input type="time" id="end_time" name="end_time" required><br><br>
+    
+        <!-- Dropdown for Time Zones -->
+        <label for="time_zone">Time Zone:</label>
+        <select id="time_zone" name="time_zone" required>
+            <option value="UTC">UTC</option>
+            <option value="America/New_York">America/New_York (EST)</option>
+            <option value="Europe/London">Europe/London (GMT)</option>
+            <option value="Asia/Kolkata">Asia/Kolkata (IST)</option>
+            <option value="Australia/Sydney">Australia/Sydney (AEDT)</option>
+        </select><br><br>
+
+        <!-- Recurrence Options -->
+        <label for="recurrence">Recurrence:</label>
+        <select id="recurrence" name="recurrence">
+            <option value="">None</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+        </select><br><br>
+
+        <label for="occurrences">Number of Occurrences:</label>
+        <input type="number" id="occurrences" name="occurrences" min="1" placeholder="e.g., 5"><br><br>
+    
+        <button type="submit">Submit Availability</button>
+    </form>  
+    <a href="/">Go Back to Home</a>  
+</body>
+</html>
