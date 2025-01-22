@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Availabilities</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #343a40;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        h1 {
+            margin-top: 20px;
+            color: #007bff;
+            text-align: center;
+        }
+
+        .filter-form {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        table {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table thead th {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+
+        table tbody td {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        form button {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+    <script>
+        function filterTable() {
+            const filterValue = document.getElementById('filterValue').value.toLowerCase().trim();
+            const rows = document.querySelectorAll('#availabilityTable tbody tr');
+
+            rows.forEach(row => {
+                const subject = row.querySelector('td:nth-child(7)').innerText.toLowerCase();
+                const matches = subject.includes(filterValue);
+
+                row.style.display = matches ? '' : 'none';
+            });
+        }
+    </script>
+</head>
+<body>
+    <h1>All Unbooked Availabilities</h1>
+
+    {% if error %}
+        <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <!-- Filter Form -->
+    <div>
+        <label for="filterValue">Filter By Subject:</label>
+        <select id="filterValue" onchange="filterTable()">
+            <option value="">-- Select a Subject --</option>
+            <option value="math">Math</option>
+            <option value="science">Science</option>
+            <option value="english">English</option>
+            <option value="history">History</option>
+            <option value="geography">Geography</option>
+        </select>
+    </div>
+
+    {% if availabilities %}
+        <table border="1" id="availabilityTable">
+            <thead>
+                <tr>
+                    <th>Tutor ID</th>
+                    <th>Tutor Name</th>
+                    <th>Date</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Time Zone</th>
+                    <th>Subject</th>
+                    <th>Book</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in availabilities %}
+                <tr>
+                    <td>{{ item.tutor.id }}</td>
+                    <td>{{ item.tutor.name }}</td>
+                    <td>{{ item.availability.date }}</td>
+                    <td>{{ item.start_time_converted }}</td>
+                    <td>{{ item.end_time_converted }}</td>
+                    <td>{{ item.converted_timezone }}</td>
+                    <td>{{ item.tutor.subject }}</td>
+                    <td>
+                        <form action="/book-slot" method="get">
+                            <input type="hidden" name="tutor_id" value="{{ item.tutor.id }}">
+                            <input type="hidden" name="date" value="{{ item.availability.date }}">
+                            <input type="hidden" name="start_time" value="{{ item.start_time_converted }}">
+                            <input type="hidden" name="end_time" value="{{ item.end_time_converted }}">
+                            <input type="hidden" name="time_zone" value="{{ item.converted_timezone }}">
+                            <button type="submit">Book</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No availabilities found.</p>
+    {% endif %}
+
+    <a href="/">Go Back to Home</a>
+</body>
+</html>
